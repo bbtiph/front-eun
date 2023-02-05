@@ -1,0 +1,8 @@
+{
+  "/": {
+    "target": "http://localhost:8902",
+    "secure": "false",
+    "timeout": 36000000,
+    "changeOrigin": true
+  }
+}

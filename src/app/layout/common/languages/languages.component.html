@@ -1,0 +1,7 @@
+<ng-container *ngFor="let lang of availableLangs; trackBy: trackByFn">
+    <button (click)="setActiveLang(lang.id)" class="py-2 px-6 uppercase rounded"
+            [ngClass]="{'font-bold md-raised bg-sky-600 text-white': lang.id == _translocoService.getActiveLang(),
+                        'font-bold md-raised bg-gray-300 text-gray-800': lang.id != _translocoService.getActiveLang()}">
+        {{lang.label}}
+    </button>
+</ng-container>

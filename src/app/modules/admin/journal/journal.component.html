@@ -1,0 +1,202 @@
+<div class="flex flex-col flex-auto min-w-0 bg-white">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pt-10 sm:px-10 bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{'Journal' | translate}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <div class="inline-flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none pb-8 text-black space-x-3">
+            <mat-form-field appearance="outline"
+                            class="sm:w-120 mt-4 sm:mt-0 sm:ml-4">
+                <mat-label class="text-black">{{'Search' | translate}}</mat-label>
+                <mat-icon
+                        matPrefix
+                        class="icon-size-5 mb-5 mr-5"
+                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                        matInput
+                        #query>
+                <mat-icon
+                        matSuffix
+                        class="icon-size-5 mb-5 mr-5"
+                        [svgIcon]="'feather:x-circle'"></mat-icon>
+            </mat-form-field>
+            <button
+                    class="fuse-mat-button-large w-full max-w-40 sm:w-40 text-black font-semibold pt-0 mb-6"
+                    mat-flat-button
+                    [color]="'primary'">
+                    <span>
+                        {{'Search' | translate}}
+                    </span>
+            </button>
+            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-60" appearance="outline">
+                <mat-label class="text-black">{{'Results' | translate}}</mat-label>
+                <mat-select class="w-full text-black"
+                            [value]="'all'">
+                    <mat-option class="text-black" [value]="'all'">{{'all' | translate}}</mat-option>
+                    <ng-container *ngFor="let category of subjects">
+                        <mat-option [value]="category.name">{{category.name}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full sm:w-80">
+                <mat-label class="text-black">{{'Date' | translate}}</mat-label>
+                <input
+                        id="date"
+                        matInput
+                        [matDatepicker]="datepicker"
+                >
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+            <div class="w-full sm:w-40"></div>
+            <button
+                    class="fuse-mat-button-large w-full max-w-40 sm:w-40 text-black font-semibold pt-0 mb-6"
+                    mat-flat-button
+                    [color]="'primary'">
+                    <span>
+                        {{'Export' | translate}}
+                    </span>
+            </button>
+        </div>
+
+        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow overflow-hidden">
+
+            <div class="overflow-x-auto">
+                <table [dataSource]="dataSource" class="w-full" mat-table matSort (matSortChange)="sortData($event)"
+                       matSortDirection="asc" matSortDisableClear>
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="checkbox">
+                        <th *matHeaderCellDef mat-header-cell class="bg-gray-200">
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                          [checked]="selection.hasValue() && isAllSelected()"
+                                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                          color="primary">
+                            </mat-checkbox>
+                        </th>
+                        <td *matCellDef="let row" class="w-4 py-3" mat-cell >
+                            <mat-checkbox (change)="$event ? selection.toggle(row) : null"
+                                          (click)="$event.stopPropagation()"
+                                          [checked]="selection.isSelected(row)"
+                                          color="primary">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- Image Column -->
+                    <ng-container matColumnDef="image">
+                        <th *matHeaderCellDef mat-header-cell></th>
+                        <td *matCellDef="let row" class="px-0" mat-cell>
+                            <img [src]="row['image'] ? row['image'] : '/assets/images/avatars/Ali_logo.png'"
+                                 class="h-8 w-8 align-middle rounded-full object-cover">
+                        </td>
+                    </ng-container>
+
+                    <!-- Text Columns -->
+                    <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                        <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property" class="border-l-2 border-r-2">
+                            <!--            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header (click)="sortByColumn()"> {{ column.label }}</th>-->
+                            <th *matHeaderCellDef class="text-black bg-gray-200" mat-header-cell
+                                mat-sort-header> {{ column.label | translate}}</th>
+                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell class="break-all text-black">
+                                {{ column.isObject ? row[column.property][0]?.[column.objectProperty] : row[column.property] }}
+                            </td>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <!-- Date Columns -->
+                    <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                        <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property" class="border-l-2 border-r-2">
+                            <!--            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header (click)="sortByColumn()"> {{ column.label }}</th>-->
+                            <th *matHeaderCellDef class="text-black bg-gray-200" mat-header-cell mat-sort-header>
+                                <div>{{ column.label | translate}}</div>
+                            </th>
+                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell class="break-all text-black">
+                                {{ row[column.property] | date:'LLL dd yyyy'}}
+                            </td>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- Status Columns -->
+                    <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                        <ng-container *ngIf="column.type === 'activeStatus'" [matColumnDef]="column.property">
+                            <!--            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header (click)="sortByColumn()"> {{ column.label }}</th>-->
+                            <th *matHeaderCellDef class="" mat-header-cell
+                                mat-sort-header> {{ column.label }}</th>
+                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell class="px-5">
+                                <p *ngIf="row[column.property]==false">
+                                    <mat-icon color="warn" [svgIcon]="'heroicons_solid:x-circle'"></mat-icon>
+                                </p>
+                                <p *ngIf="row[column.property]==true">
+                                    <mat-icon color="primary" [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
+                                </p>
+                            </td>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <!-- Contact Column -->
+                    <ng-container matColumnDef="contact">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+                        <td *matCellDef="let row" mat-cell>
+                            <div class="flex">
+                                <a (click)="$event.stopPropagation()"
+                                   class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                                   mat-icon-button>
+                                </a>
+
+                                <a (click)="$event.stopPropagation()"
+                                   class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-teal bg-teal-light"
+                                   mat-icon-button>
+
+                                </a>
+
+                                <a (click)="$event.stopPropagation()"
+                                   class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
+                                   mat-icon-button>
+                                </a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="actions">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+                        <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+                            <button (click)="$event.stopPropagation()"
+                                    [matMenuTriggerData]="{ item: row }"
+                                    mat-icon-button
+                                    type="button">
+                                <mat-icon [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+
+                    <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+                    <tr
+                            *matRowDef="let row; columns: visibleColumns;"
+                            class="hover:bg-hover trans-ease-out cursor-pointer"
+                            mat-row></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

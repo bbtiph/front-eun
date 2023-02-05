@@ -1,0 +1,14 @@
+{
+    "authorization" : "Авторизация",
+    "Login" : "Логин",
+    "Password" : "Пароль",
+    "forgot-password?" : "Забыли пароль?",
+    "sign-in" : "Кіру",
+    "sign-in-with-key" : "ЭЦП арқылы кіру",
+    "password-is-required" : "Нужен пароль",
+    "please-enter-a valid-email-address" : "Дұрыс электрондық поштаны енгізіңіз",
+    "email-address-is-required" : "Электрондық поштаңызды енгізіңіз",
+    "Ministry-of-Education-of-the-Republic-of-Kazakhstan" : "Қазақстан Республикасы Білім министрлігі",
+    "Module-National-educational-database" : "Модуль «Национальная образовательная база данных»",
+    "Preventive-control-State-certification" : "Профилактикалық бақылау Мемлекеттік аттестаттау"
+}
