@@ -3,33 +3,9 @@
         cdkScrollable>
 
     <!-- Header -->
-    <div class="relative flex-0 py-7 px-2 sm:p-2 overflow-hidden bg-primary">
 
-        <!-- @formatter:on -->
-        <div class="z-1 relative flex flex-col">
-            <h2 class="text-xl font-semibold"></h2>
-            <div class="mt-1 text-3xl sm:text-3xl font-medium leading-tight py-3 text-black px-4">
-                {{'Preventive-control-State-certification' | translate}}
-            </div>
-        </div>
-    </div>
-    <!-- Header -->
-    <div class="relative flex-0 py-7 px-7 sm:p-2 overflow-hidden bg-white">
-
-        <!-- @formatter:on -->
-        <div class="z-1 relative inline-flex justify-between w-full space-x-2">
-            <!-- Logo -->
-            <div class="w-60 px-4">
-                <img src="assets/images/logo/logo.svg">
-            </div>
-            <languages></languages>
-        </div>
-    </div>
 </div>
 <div class="flex flex-col flex-auto items-center sm:justify-center min-w-0 bg-white">
-    <div class="mt-8 text-4xl tracking-tight leading-tight">{{'Module-National-educational-database' | translate}}<br>
-        {{'Ministry-of-Education-of-the-Republic-of-Kazakhstan' | translate}}
-    </div>
     <div class="w-full sm:w-auto py-8 px-4 sm:p-12 ">
         <div class="w-full max-w-100 sm:w-100 mx-auto sm:mx-0">
 
@@ -91,14 +67,6 @@
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Actions -->
-                <div class="inline-flex items-end justify-end w-full mt-1.5">
-                    <a
-                            class="text-md font-medium underline"
-                            [routerLink]="['/forgot-password']">{{'forgot-password?' | translate}}
-                    </a>
-                </div>
-
                 <!-- Submit button -->
                 <div class="flex items-center pr-2 space-x-6 justify-center">
                     <button
@@ -109,20 +77,6 @@
                             (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         {{'sign-in' | translate}}
-                    </span>
-                        <mat-progress-spinner
-                                *ngIf="signInForm.disabled"
-                                [diameter]="24"
-                                [mode]="'indeterminate'"></mat-progress-spinner>
-                    </button>
-                    <button
-                            class="fuse-mat-button-large w-full mt-6 max-w-40 sm:w-40 text-white"
-                            mat-flat-button
-                            [color]="'primary'"
-                            [disabled]="signInForm.disabled"
-                            (click)="signInWithKey()">
-                    <span *ngIf="!signInForm.disabled">
-                        {{'sign-in-with-key' | translate}}
                     </span>
                         <mat-progress-spinner
                                 *ngIf="signInForm.disabled"
