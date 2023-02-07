@@ -1,6 +1,6 @@
 {
   "/": {
-    "target": "http://10.3.245.39:8902",
+    "target": "http://localhost:8902",
     "secure": "false",
     "timeout": 36000000,
     "changeOrigin": true

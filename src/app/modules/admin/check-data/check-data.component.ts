@@ -13,6 +13,7 @@ import {CheckModel} from "../../../core/model/check.model";
 import {ConfirmationDialogComponent} from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 import {CommonConstants} from "../../../core/constant/CommonConstants";
 import {Pagination} from "../../../core/model/pagination.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-check-data',
@@ -33,18 +34,18 @@ export class CheckDataComponent implements OnInit, AfterViewInit{
   @Input()
   columns: TableColumn<CheckModel>[] = [
     {label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true},
-    {label: 'name', property: 'name', type: 'text', visible: true},
-    {label: 'acronym', property: 'acronym', type: 'text', visible: true},
-    {label: 'description', property: 'description', type: 'text', visible: true},
-    {label: 'contactEmail', property: 'contactEmail', type: 'text', visible: true},
-    {label: 'contactName', property: 'contactName', type: 'text', visible: true},
-    {label: 'totalBudget', property: 'totalBudget', type: 'text', visible: true},
-    {label: 'totalFunding', property: 'totalFunding', type: 'text', visible: true},
-    {label: 'fundingValue', property: 'fundingValue', type: 'text', visible: true},
-    {label: 'percentageOfFunding', property: 'percentageOfFunding', type: 'text', visible: true},
-    {label: 'percentageOfIndirectCosts', property: 'percentageOfIndirectCosts', type: 'text', visible: true},
-    {label: 'percentageOfIndirectCostsForEun', property: 'percentageOfIndirectCostsForEun', type: 'text', visible: true},
-    {label: 'fundingExtraComment', property: 'fundingExtraComment', type: 'text', visible: true},
+    {label: 'Name', property: 'name', type: 'text', visible: true},
+    {label: 'Acronym', property: 'acronym', type: 'text', visible: true},
+    {label: 'Description', property: 'description', type: 'text', visible: true},
+    {label: 'Contact email', property: 'contactEmail', type: 'text', visible: true},
+    {label: 'Contact name', property: 'contactName', type: 'text', visible: true},
+    {label: 'Total budget', property: 'totalBudget', type: 'text', visible: true},
+    {label: 'Total funding', property: 'totalFunding', type: 'text', visible: true},
+    {label: 'Funding value', property: 'fundingValue', type: 'text', visible: true},
+    {label: 'Percentage of funding', property: 'percentageOfFunding', type: 'text', visible: true},
+    {label: 'Percentage of indirect costs', property: 'percentageOfIndirectCosts', type: 'text', visible: true},
+    {label: 'Percentage of indirect costs for EUN', property: 'percentageOfIndirectCostsForEun', type: 'text', visible: true},
+    {label: 'fundingExtraComment', property: 'Funding extra comment', type: 'text', visible: true},
     // {label: 'Actions', property: 'actions', type: 'button', visible: true}
   ];
 
@@ -81,6 +82,10 @@ export class CheckDataComponent implements OnInit, AfterViewInit{
       this.pageSize = res.size;
       this.length = res.total;
     });
+  }
+
+  downloadPDF() {
+    this.checkService.downloadPDF();
   }
 
   saveCategory(categoryModel?: CheckModel) {

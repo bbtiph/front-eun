@@ -55,4 +55,17 @@ export class CheckService {
     getAllCategoriesFilter(value: string) {
         return this.http.get(`${this.CATEGORY_URL}filter?params=` + value);
     }
+
+    downloadPDF(): void {
+        this.http.get('cameralcontrol/report/op_mf?id=32&output=pdf&lang=ru', {
+            responseType: 'blob'
+        }).subscribe((response) => {
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(response);
+            a.download = "sample_country_impact_report_spain";
+            // start download
+            a.click();
+        });
+    }
+
 }
